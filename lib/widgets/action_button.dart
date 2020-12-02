@@ -1,20 +1,11 @@
 import 'package:flutter/material.dart';
 
 class ActionButton extends StatelessWidget {
-  final int index;
   final bool isSelected;
-  final Function(int) onRemove;
-  final Function(int) onSelect;
+  final Function() onRemove;
+  final Function() onSelect;
 
-  ActionButton({this.index, this.isSelected, this.onRemove, this.onSelect});
-
-  void onPress() {
-    if (isSelected) {
-      onRemove(index);
-    } else {
-      onSelect(index);
-    }
-  }
+  ActionButton({this.isSelected, this.onRemove, this.onSelect});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +17,7 @@ class ActionButton extends StatelessWidget {
           'Remove',
           style: TextStyle(color: Colors.redAccent),
         ),
-        onPressed: onPress,
+        onPressed: onRemove,
       );
     }
 
@@ -37,7 +28,7 @@ class ActionButton extends StatelessWidget {
         'Select',
         style: TextStyle(color: Colors.blueAccent),
       ),
-      onPressed: onPress,
+      onPressed: onSelect,
     );
   }
 }

@@ -53,23 +53,26 @@ class _ContactListState extends State<ContactList> {
     if (permissionStatus == PermissionStatus.granted) {
       int index = 0;
       final Iterable<Contact> contacts = await ContactsService.getContacts();
-      final List<SimplifiedContact> tempContacts = [];
+      // final List<SimplifiedContact> tempContacts = [];
 
-      contacts.forEach((contact) {
-        contact.phones.forEach((phoneData) {
-          tempContacts.add(SimplifiedContact(
-            index,
-            contact.displayName,
-            phoneData.value,
-          ));
+      setState(() {
+        contactList = [];
+        contacts.forEach((contact) {
+          contact.phones.forEach((phoneData) {
+            contactList.add(SimplifiedContact(
+              index,
+              contact.displayName,
+              phoneData.value,
+            ));
 
-          index++;
+            index++;
+          });
         });
       });
 
-      setState(() {
-        contactList = tempContacts;
-      });
+      // setState(() {
+      //   contactList = tempContacts;
+      // });
     } else {
       showDialog(
         context: context,
@@ -170,10 +173,13 @@ class _ContactListState extends State<ContactList> {
                       title: Text(contact.name ?? ''),
                       subtitle: Text(contact.phone),
                       trailing: new ActionButton(
-                        index: index,
                         isSelected: selectedIndices.indexOf(index) > -1,
-                        onRemove: onContactRemove,
-                        onSelect: onContactSelect,
+                        onRemove: () {
+                          onContactRemove(index);
+                        },
+                        onSelect: () {
+                          onContactSelect(index);
+                        },
                       ),
                     ),
                     Divider(
